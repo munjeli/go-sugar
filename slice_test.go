@@ -261,3 +261,33 @@ func TestPopSlice(t *testing.T) {
 		})
 	}
 }
+
+func TestReverseSlice(t *testing.T) {
+    tests := []struct {
+        desc string
+        is []interface{}
+        want []interface{}
+    } {
+        {
+            desc: "empty slice",
+            is: emptySlice,
+            want: emptySlice,
+        },
+		{
+			desc: "string slice",
+			is: stringSliceNoDups,
+			want: []interface{}{"sate", "bat", "cat", "kitty"} ,
+		},
+    }
+    for _, test := range tests {
+        t.Run(test.desc, func(t *testing.T) {
+            reversed := ReverseSlice(test.is)
+            for idx, i := range reversed {
+            	if reversed[idx] != test.want[idx] {
+            		t.Errorf("failed to reverse slice: want: %v, got: %v", test.want[idx], i)
+				}
+			}
+
+        })
+    }
+}

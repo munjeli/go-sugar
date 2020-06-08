@@ -57,10 +57,16 @@ func CountDupsInSlice(is []interface{}) map[interface{}]int {
 	return c
 }
 
-// Reverse returns a slice reversed.
-//func Reverse(is []interface{}) []interface{} {}
+// ReverseSlice returns a slice reversed.
+func ReverseSlice(is []interface{}) []interface{} {
+	for i, nexti := 0, len(is)-1; i < nexti; i, nexti = i+1, nexti-1 {
+		is[i], is[nexti] = is[nexti], is[i]
+	}
+	return is
+}
 
 // PopSlice returns the first element of a slice, and the tail.
+// Don't forget to overwrite the var if you're using this in a loop.
 func PopSlice(is []interface{}) (interface{}, []interface{}) {
 	if len(is) == 0 {
 		return nil, []interface{}{}
