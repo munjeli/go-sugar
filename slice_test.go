@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestHasDupes(t *testing.T) {
+func TestSliceHasDupes(t *testing.T) {
 	tests := []struct {
 		desc  string
 		testi []interface{}
@@ -28,7 +28,7 @@ func TestHasDupes(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.desc, func(t *testing.T) {
-			b := HasDupes(test.testi)
+			b := SliceHasDupes(test.testi)
 			if b != test.want {
 				t.Errorf("want: %v, got: %v", test.want, b)
 			}
@@ -71,7 +71,7 @@ func TestInSlice(t *testing.T) {
 	}
 }
 
-func TestCountDups(t *testing.T) {
+func TestCountDupsInSlice(t *testing.T) {
 	tests := []struct {
 		desc    string
 		is      []interface{}
@@ -104,7 +104,7 @@ func TestCountDups(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.desc, func(t *testing.T) {
-			m := CountDups(test.is)
+			m := CountDupsInSlice(test.is)
 			for k, v := range m {
 				if val, ok := test.result[k]; ok {
 					if val != v && !test.wantErr {
@@ -208,7 +208,7 @@ func TestCountInSlice(t *testing.T) {
 	}
 }
 
-func TestRemove(t *testing.T) {
+func TestRemoveFromSlice(t *testing.T) {
 	tests := []struct {
 		desc string
 		is []interface{}
@@ -232,7 +232,7 @@ func TestRemove(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.desc, func(t *testing.T) {
-			removed := Remove(test.is, test.i)
+			removed := RemoveFromSlice(test.is, test.i)
 			if InSlice(removed, test.i) {
 				t.Errorf("failed to remove %v from slice", test.i)
 			}
@@ -240,7 +240,7 @@ func TestRemove(t *testing.T) {
 	}
 }
 
-func TestPop(t *testing.T) {
+func TestPopSlice(t *testing.T) {
 	tests := []struct {
 		desc string
 		is []interface{}
@@ -254,7 +254,7 @@ func TestPop(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.desc, func(t *testing.T) {
-			_, tail := Pop(test.is)
+			_, tail := PopSlice(test.is)
 			if len(tail) != test.expectedLen {
 				t.Errorf("failed to pop slice: got len: %v, want: %v", len(tail), test.expectedLen)
 			}

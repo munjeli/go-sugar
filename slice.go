@@ -2,17 +2,17 @@ package sugar
 
 import "fmt"
 
-// HasDupes
-func HasDupes(is []interface{}) bool {
-	m := Uniq(is)
+// SliceHasDupes returns a bool if a slice has duplicate interfaces.
+func SliceHasDupes(is []interface{}) bool {
+	m := UniqSlice(is)
 	if len(is) > len(m) {
 		return true
 	}
 	return false
 }
 
-// Uniq sends back a deduped slice.
-func Uniq(is []interface{}) []interface{} {
+// UniqSlice sends back a deduped slice.
+func UniqSlice(is []interface{}) []interface{} {
 	m := map[interface{}]int{}
 	for _, i := range is {
 		m[i] = 0
@@ -24,8 +24,8 @@ func Uniq(is []interface{}) []interface{} {
 	return keys
 }
 
-// Remove will remove a given item from an array.
-func Remove(is []interface{}, i interface{}) []interface{} {
+// RemoveFromSlice will remove a given item from a slice.
+func RemoveFromSlice(is []interface{}, i interface{}) []interface{} {
 	removed := []interface{}{}
 	for _, intfc := range is {
 		if intfc == i {
@@ -47,9 +47,9 @@ func InSlice(is []interface{}, i interface{}) bool {
 	return false
 }
 
-// CountDups returns a map with the number of instances of an
+// CountDupsInSlice returns a map with the number of instances of an
 // interface.
-func CountDups(is []interface{}) map[interface{}]int {
+func CountDupsInSlice(is []interface{}) map[interface{}]int {
 	c := map[interface{}]int{}
 	for _, i := range is {
 		c[i] = c[i] +1
@@ -60,8 +60,8 @@ func CountDups(is []interface{}) map[interface{}]int {
 // Reverse returns a slice reversed.
 //func Reverse(is []interface{}) []interface{} {}
 
-// Pop returns the first element of a slice, and the tail.
-func Pop(is []interface{}) (interface{}, []interface{}) {
+// PopSlice returns the first element of a slice, and the tail.
+func PopSlice(is []interface{}) (interface{}, []interface{}) {
 	if len(is) == 0 {
 		return nil, []interface{}{}
 	}
@@ -86,7 +86,7 @@ func ReplaceInSlice(is []interface{}, old, new interface{}) ([]interface{}, erro
 
 // CountInSlice returns the number of times an interface is in the slice.
 func CountInSlice(is []interface{}, countThis interface{}) int {
-	mapWithCounts := CountDups(is)
+	mapWithCounts := CountDupsInSlice(is)
 	return mapWithCounts[countThis]
 }
 
