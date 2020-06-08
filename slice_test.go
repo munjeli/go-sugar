@@ -292,6 +292,11 @@ func TestReverseSlice(t *testing.T) {
     }
 }
 
+func checkResults(got []interface{}, want []interface{}) error {
+
+	return nil
+}
+
 func TestFilterSliceByCondition(t *testing.T) {
     tests := []struct {
         desc string
@@ -315,6 +320,13 @@ func TestFilterSliceByCondition(t *testing.T) {
 			if len(test.is) == 0 {
 				if len(targets) != 0 && len(filtered) != 0 {
 					t.Errorf("failed on empty slice")
+				}
+			} else {
+				if err := checkResults(targets, test.targets); err != nil {
+					t.Errorf("failed to filter targets: %v", err)
+				}
+				if err := checkResults(filtered, test.filtered); err != nil {
+					t.Errorf("failed filtered slice: %v", err)
 				}
 			}
         })
