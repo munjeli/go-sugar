@@ -291,3 +291,32 @@ func TestReverseSlice(t *testing.T) {
         })
     }
 }
+
+func TestFilterSliceByCondition(t *testing.T) {
+    tests := []struct {
+        desc string
+        is []interface{}
+        f func(interface{}) bool
+        filtered []interface{}
+        targets []interface{}
+    } {
+		{
+			desc:     "empty slice",
+			f: func(i interface{}) bool { if i == "cat" { return true}; return false},
+			is:       emptySlice,
+			filtered: emptySlice,
+			targets:  emptySlice,
+		},
+    }
+    for _, test := range tests {
+        t.Run(test.desc, func(t *testing.T) {
+            targets, filtered := FilterSliceByCondition(test.is, test.f)
+            // Check the empty slice is working as expected
+			if len(test.is) == 0 {
+				if len(targets) != 0 && len(filtered) != 0 {
+					t.Errorf("failed on empty slice")
+				}
+			}
+        })
+    }
+}

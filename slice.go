@@ -65,6 +65,21 @@ func ReverseSlice(is []interface{}) []interface{} {
 	return is
 }
 
+// FilterSliceByCondition takes a slice and a function that takes interface an returns a bool. This is
+// more flexible than writing lots of conditions naturally, but you have to craft a function.
+// example:
+// f := func(i interface{}) bool { if i == "cat"; return true }
+func FilterSliceByCondition(is []interface{}, f func(i interface{}) bool) (targets []interface{}, filtered []interface{}) {
+	for _, i := range is {
+		if f(i) {
+			targets = append(targets, i)
+		} else {
+			filtered = append(filtered, i)
+		}
+	}
+	return targets, filtered
+}
+
 // PopSlice returns the first element of a slice, and the tail.
 // Don't forget to overwrite the var if you're using this in a loop.
 func PopSlice(is []interface{}) (interface{}, []interface{}) {
