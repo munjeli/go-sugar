@@ -278,6 +278,11 @@ func TestReverseSlice(t *testing.T) {
 			is: stringSliceNoDups,
 			want: []interface{}{"sate", "bat", "cat", "kitty"} ,
 		},
+		{
+			desc: "rune slice",
+			is: testWithRunes("abcde"),
+			want: testWithRunes("edcba"),
+		},
     }
     for _, test := range tests {
         t.Run(test.desc, func(t *testing.T) {
