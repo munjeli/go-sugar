@@ -30,5 +30,6 @@ jobs:
             dep ensure
         fi
 
+  test:
     - name: Test
       run: make test
