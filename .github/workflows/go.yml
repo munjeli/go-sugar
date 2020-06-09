@@ -36,4 +36,5 @@ jobs:
     steps:
 
     - name: Run tests
-      run: ls
+      run: go test -v -coverprofile=cover.out
+        go tool cover -func=cover.out
