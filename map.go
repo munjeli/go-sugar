@@ -1,4 +1,5 @@
 package sugar
+
 // I mostly broke these out by key and value which may seem like a lot of redundant code
 // but I am still thinking about how to support slice values and it's also perhaps clearer
 // to me as a user to have that separation rather than passing a flag on key or value.
@@ -68,7 +69,3 @@ func FilterMapByValueCondition(m map[interface{}]interface{}, f func(i interface
 func SameMap(m1 map[interface{}]interface{}, m2 map[interface{}]interface{}) bool {
 	return reflect.DeepEqual(m1, m2)
 }
-
-
-
-

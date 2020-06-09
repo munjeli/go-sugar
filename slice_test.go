@@ -1,8 +1,8 @@
 package sugar
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
 func TestSliceHasDupes(t *testing.T) {
@@ -175,27 +175,27 @@ func TestReplaceInSlice(t *testing.T) {
 
 func TestCountInSlice(t *testing.T) {
 	tests := []struct {
-		desc string
-		is []interface{}
-		i interface{}
+		desc  string
+		is    []interface{}
+		i     interface{}
 		count int
-	} {
+	}{
 		{
-			desc: "test with empty slice",
-			is: emptySlice,
-			i: "kitten",
+			desc:  "test with empty slice",
+			is:    emptySlice,
+			i:     "kitten",
 			count: 0,
 		},
 		{
-			desc: "test with irregular slice",
-			is: mixedSlice,
-			i: "kitty",
+			desc:  "test with irregular slice",
+			is:    mixedSlice,
+			i:     "kitty",
 			count: 1,
 		},
 		{
-			desc: "test with different cat",
-			is: mixedSlice,
-			i: kitty{"fish", "marmalade"},
+			desc:  "test with different cat",
+			is:    mixedSlice,
+			i:     kitty{"fish", "marmalade"},
 			count: 0,
 		},
 	}
@@ -212,23 +212,23 @@ func TestCountInSlice(t *testing.T) {
 func TestRemoveFromSlice(t *testing.T) {
 	tests := []struct {
 		desc string
-		is []interface{}
-		i interface{}
-	} {
+		is   []interface{}
+		i    interface{}
+	}{
 		{
 			desc: "empty slice",
-			is: emptySlice,
-			i: kitty{"shirls", "spotted"},
+			is:   emptySlice,
+			i:    kitty{"shirls", "spotted"},
 		},
 		{
 			desc: "weird slice",
-			is: mixedSlice,
-			i: kitty{"shirls", "spotted"},
+			is:   mixedSlice,
+			i:    kitty{"shirls", "spotted"},
 		},
 		{
 			desc: "remove dupes",
-			is: stringSliceWithDups,
-			i: "kitty",
+			is:   stringSliceWithDups,
+			i:    "kitty",
 		},
 	}
 	for _, test := range tests {
@@ -243,13 +243,13 @@ func TestRemoveFromSlice(t *testing.T) {
 
 func TestPopSlice(t *testing.T) {
 	tests := []struct {
-		desc string
-		is []interface{}
+		desc        string
+		is          []interface{}
 		expectedLen int
-	} {
+	}{
 		{
-			desc: "empty slice",
-			is: emptySlice,
+			desc:        "empty slice",
+			is:          emptySlice,
 			expectedLen: 0,
 		},
 	}
@@ -264,58 +264,63 @@ func TestPopSlice(t *testing.T) {
 }
 
 func TestReverseSlice(t *testing.T) {
-    tests := []struct {
-        desc string
-        is []interface{}
-        want []interface{}
-    } {
-        {
-            desc: "empty slice",
-            is: emptySlice,
-            want: emptySlice,
-        },
+	tests := []struct {
+		desc string
+		is   []interface{}
+		want []interface{}
+	}{
+		{
+			desc: "empty slice",
+			is:   emptySlice,
+			want: emptySlice,
+		},
 		{
 			desc: "string slice",
-			is: stringSliceNoDups,
-			want: []interface{}{"sate", "bat", "cat", "kitty"} ,
+			is:   stringSliceNoDups,
+			want: []interface{}{"sate", "bat", "cat", "kitty"},
 		},
 		{
 			desc: "rune slice",
-			is: testWithRunes("abcde"),
+			is:   testWithRunes("abcde"),
 			want: testWithRunes("edcba"),
 		},
-    }
-    for _, test := range tests {
-        t.Run(test.desc, func(t *testing.T) {
-            reversed := ReverseSlice(test.is)
+	}
+	for _, test := range tests {
+		t.Run(test.desc, func(t *testing.T) {
+			reversed := ReverseSlice(test.is)
 			isEqual := reflect.DeepEqual(reversed, test.want)
 			if !isEqual {
 				t.Errorf("array not reversed: want: %v, got: %v", test.want, reversed)
 			}
-        })
-    }
+		})
+	}
 }
 
 func TestFilterSliceByCondition(t *testing.T) {
-    tests := []struct {
-        desc string
-        is []interface{}
-        f func(interface{}) bool
-        filtered []interface{}
-        targets []interface{}
-    } {
+	tests := []struct {
+		desc     string
+		is       []interface{}
+		f        func(interface{}) bool
+		filtered []interface{}
+		targets  []interface{}
+	}{
 		{
-			desc:     "empty slice",
-			f: func(i interface{}) bool { if i == "cat" { return true}; return false},
+			desc: "empty slice",
+			f: func(i interface{}) bool {
+				if i == "cat" {
+					return true
+				}
+				return false
+			},
 			is:       emptySlice,
 			filtered: emptySlice,
 			targets:  emptySlice,
 		},
-    }
-    for _, test := range tests {
-        t.Run(test.desc, func(t *testing.T) {
-            targets, filtered := FilterSliceByCondition(test.is, test.f)
-            // Check the empty slice is working as expected
+	}
+	for _, test := range tests {
+		t.Run(test.desc, func(t *testing.T) {
+			targets, filtered := FilterSliceByCondition(test.is, test.f)
+			// Check the empty slice is working as expected
 			if len(test.is) == 0 {
 				if len(targets) != 0 && len(filtered) != 0 {
 					t.Errorf("failed on empty slice")
@@ -330,6 +335,6 @@ func TestFilterSliceByCondition(t *testing.T) {
 					t.Errorf("failed to filter interfaces out: results: %v", filtered)
 				}
 			}
-        })
-    }
+		})
+	}
 }

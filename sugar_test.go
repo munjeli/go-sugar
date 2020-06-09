@@ -16,9 +16,9 @@ func testWithRunes(s string) []interface{} {
 }
 
 var (
-	emptySlice = []interface{}{}
-	mixedSlice = []interface{}{"kitty", 1, kitty{"shirls", "spotted"}}
-	stringSliceNoDups = []interface{}{"kitty", "cat", "bat", "sate"}
+	emptySlice          = []interface{}{}
+	mixedSlice          = []interface{}{"kitty", 1, kitty{"shirls", "spotted"}}
+	stringSliceNoDups   = []interface{}{"kitty", "cat", "bat", "sate"}
 	stringSliceWithDups = []interface{}{"kitten", "dog", "kitten"}
-	emptyMap = map[interface{}]interface{}{}
+	emptyMap            = map[interface{}]interface{}{}
 )

@@ -52,7 +52,7 @@ func InSlice(is []interface{}, i interface{}) bool {
 func CountDupsInSlice(is []interface{}) map[interface{}]int {
 	c := map[interface{}]int{}
 	for _, i := range is {
-		c[i] = c[i] +1
+		c[i] = c[i] + 1
 	}
 	return c
 }
@@ -110,4 +110,3 @@ func CountInSlice(is []interface{}, countThis interface{}) int {
 	mapWithCounts := CountDupsInSlice(is)
 	return mapWithCounts[countThis]
 }
-

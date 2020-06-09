@@ -9,4 +9,3 @@ func RunesToInterfaces(rs []rune) []interface{} {
 	}
 	return is
 }
-
