@@ -20,4 +20,5 @@ var (
 	mixedSlice = []interface{}{"kitty", 1, kitty{"shirls", "spotted"}}
 	stringSliceNoDups = []interface{}{"kitty", "cat", "bat", "sate"}
 	stringSliceWithDups = []interface{}{"kitten", "dog", "kitten"}
+	emptyMap = map[interface{}]interface{}{}
 )

@@ -2,6 +2,7 @@ package sugar
 
 import (
 	"testing"
+	"reflect"
 )
 
 func TestSliceHasDupes(t *testing.T) {
@@ -287,19 +288,12 @@ func TestReverseSlice(t *testing.T) {
     for _, test := range tests {
         t.Run(test.desc, func(t *testing.T) {
             reversed := ReverseSlice(test.is)
-            for idx, i := range reversed {
-            	if reversed[idx] != test.want[idx] {
-            		t.Errorf("failed to reverse slice: want: %v, got: %v", test.want[idx], i)
-				}
+			isEqual := reflect.DeepEqual(reversed, test.want)
+			if !isEqual {
+				t.Errorf("array not reversed: want: %v, got: %v", test.want, reversed)
 			}
-
         })
     }
-}
-
-func checkResults(got []interface{}, want []interface{}) error {
-
-	return nil
 }
 
 func TestFilterSliceByCondition(t *testing.T) {
@@ -327,11 +321,13 @@ func TestFilterSliceByCondition(t *testing.T) {
 					t.Errorf("failed on empty slice")
 				}
 			} else {
-				if err := checkResults(targets, test.targets); err != nil {
-					t.Errorf("failed to filter targets: %v", err)
+				okTargets := reflect.DeepEqual(test.targets, targets)
+				if !okTargets {
+					t.Errorf("failed to filter targets: results: %v", targets)
 				}
-				if err := checkResults(filtered, test.filtered); err != nil {
-					t.Errorf("failed filtered slice: %v", err)
+				okFiltered := reflect.DeepEqual(test.filtered, filtered)
+				if !okFiltered {
+					t.Errorf("failed to filter interfaces out: results: %v", filtered)
 				}
 			}
         })
