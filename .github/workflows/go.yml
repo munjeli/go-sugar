@@ -36,5 +36,4 @@ jobs:
     steps:
 
     - name: Run tests
-      run: make test
-      working-directory: ../../.
+      run: pwd
