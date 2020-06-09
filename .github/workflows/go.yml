@@ -31,5 +31,9 @@ jobs:
         fi
 
   test:
-    - name: Test
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      
+    - name: Run tests
       run: make test
