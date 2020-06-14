@@ -1,4 +1,10 @@
-all: test
+all: format vet test
+
+vet:
+	go vet
+
+format:
+	find . -name '*.go' | xargs gofmt -s
 
 build:
 	go build
