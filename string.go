@@ -1,4 +1,4 @@
-package go-sugar
+package gosugar
 
 import "reflect"
 

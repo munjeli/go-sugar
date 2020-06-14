@@ -1,4 +1,4 @@
-package go-sugar
+package gosugar
 
 // Common test data
 type kitty struct {
