@@ -1,4 +1,4 @@
-package sugar
+package go-sugar
 
 import "fmt"
 

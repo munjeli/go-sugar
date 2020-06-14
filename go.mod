@@ -1,3 +1,3 @@
-module github.com/munjeli/go-sugar/sugar
+module github.com/munjeli/go-sugar
 
 go 1.14

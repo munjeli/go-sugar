@@ -1,4 +1,4 @@
-package sugar
+package go-sugar
 
 // RunesToInterfaces is just sugar so I can compare
 // strings as a slice of characters.

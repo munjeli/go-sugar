@@ -1,4 +1,4 @@
-package sugar
+package go-sugar
 
 // I mostly broke these out by key and value which may seem like a lot of redundant code
 // but I am still thinking about how to support slice values and it's also perhaps clearer
