@@ -106,7 +106,7 @@ func ReplaceInSlice(is []interface{}, old, new interface{}) ([]interface{}, erro
 }
 
 // CountInSlice returns the number of times an interface is in the slice.
-func CountInSlice(is []interface{}, countThis interface{}) int {
+func CountInSlice(is []interface{}, i interface{}) int {
 	mapWithCounts := CountDupsInSlice(is)
-	return mapWithCounts[countThis]
+	return mapWithCounts[i]
 }

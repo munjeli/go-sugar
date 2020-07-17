@@ -1,340 +1,305 @@
 package gosugar
 
 import (
-	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSliceHasDupes(t *testing.T) {
+	type args struct {
+		is []interface{}
+	}
 	tests := []struct {
-		desc  string
-		testi []interface{}
-		want  bool
+		name string
+		args args
+		want bool
 	}{
 		{
-			desc:  "empty slice",
-			testi: emptySlice,
-			want:  false,
+			name: "empty slice",
+			args: args{is: emptySlice},
+			want: false,
 		},
 		{
-			desc:  "string",
-			testi: stringSliceWithDups,
-			want:  true,
+			name: "string",
+			args: args{is: stringSliceWithDups},
+			want: true,
 		},
 		{
-			desc:  "runes",
-			testi: testWithRunes("abcdefghijklmnop"),
-			want:  false,
+			name: "runes",
+			args: args{is: testWithRunes("abcdefghijklmnop")},
+			want: false,
 		},
 	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			b := SliceHasDupes(test.testi)
-			if b != test.want {
-				t.Errorf("want: %v, got: %v", test.want, b)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, SliceHasDupes(tt.args.is))
+		})
+	}
+}
+
+func TestUniqSlice(t *testing.T) {
+	type args struct {
+		is []interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+		want []interface{}
+	}{
+		{
+			name: "empty slice",
+			args: args{
+				is: []interface{}{},
+			},
+			want: []interface{}{},
+		},
+		{
+			name: "with some dupes",
+			args: args{
+				is: stringSliceWithDups,
+			},
+			want: []interface{}{"kitten", "dog"},
+		},
+		{
+			name: "no dups",
+			args: args{
+				is: stringSliceNoDups,
+			},
+			want: stringSliceNoDups,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.ElementsMatch(t, tt.want, UniqSlice(tt.args.is))
+		})
+	}
+}
+
+func TestRemoveFromSlice(t *testing.T) {
+	type args struct {
+		is []interface{}
+		i  interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+		want []interface{}
+	}{
+		{
+			name: "empty slice",
+			args: args{
+				is: emptySlice,
+				i:  kitty{"shirls", "spotted"},
+			},
+		},
+		{
+			name: "weird slice",
+			args: args{
+				is: mixedSlice,
+				i:  kitty{"shirls", "spotted"},
+			},
+		},
+		{
+			name: "remove dupes",
+			args: args{
+				is: stringSliceWithDups,
+				i:  "kitty",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			removed := RemoveFromSlice(tt.args.is, tt.args.i)
+			if InSlice(removed, tt.args.i) {
+				t.Errorf("failed to remove %v from slice", tt.args.i)
 			}
 		})
 	}
 }
 
 func TestInSlice(t *testing.T) {
+	type args struct {
+		is []interface{}
+		i  interface{}
+	}
 	tests := []struct {
-		desc string
-		s    []interface{}
-		i    interface{}
+		name string
+		args args
 		want bool
 	}{
 		{
-			desc: "empty slice",
-			s:    emptySlice,
-			i:    0,
+			name: "empty slice",
+			args: args{
+				is: emptySlice,
+				i:  0,
+			},
 			want: false,
 		},
 		{
-			desc: "slice with kitten",
-			s:    stringSliceWithDups,
-			i:    "kitten",
+			name: "slice with kitten",
+			args: args{
+				is: stringSliceWithDups,
+				i:  "kitten",
+			},
 			want: true,
 		},
 		{
-			desc: "slice without kitten",
-			s:    []interface{}{"platypus", "cat", "dog"},
-			i:    "kitten",
+			name: "slice without kitten",
+			args: args{
+				is: []interface{}{"platypus", "cat", "dog"},
+				i:  "kitten",
+			},
 			want: false,
 		},
 	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			if InSlice(test.s, test.i) != test.want {
-				t.Errorf("wrong bool: want: %v", test.want)
-			}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, InSlice(tt.args.is, tt.args.i))
 		})
 	}
 }
 
 func TestCountDupsInSlice(t *testing.T) {
+	type args struct {
+		is []interface{}
+	}
 	tests := []struct {
-		desc    string
-		is      []interface{}
-		result  map[interface{}]int
-		wantErr bool
+		name string
+		args args
+		want map[interface{}]int
 	}{
-		{
-			desc:    "empty interface",
-			is:      emptySlice,
-			result:  make(map[interface{}]int),
-			wantErr: false,
-		},
-		{
-			desc: "string slice",
-			is:   stringSliceWithDups,
-			result: map[interface{}]int{
-				"kitten": 2,
-				"dog":    1,
-			},
-			wantErr: false,
-		},
-		{
-			desc: "struct slice",
-			is:   []interface{}{kitty{name: "shirls", coat: "spotted"}, kitty{name: "shirls", coat: "spotted"}},
-			result: map[interface{}]int{
-				kitty{"shirls", "spotted"}: 2,
-			},
-			wantErr: false,
-		},
+		// TODO: Add test cases.
 	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			m := CountDupsInSlice(test.is)
-			for k, v := range m {
-				if val, ok := test.result[k]; ok {
-					if val != v && !test.wantErr {
-						t.Errorf("incorrect value: want: %v, got: %v", test.result[k], v)
-					}
-				} else {
-					if !test.wantErr {
-						t.Errorf("missing key: %v", k)
-					}
-				}
-
-			}
-		})
-	}
-}
-
-func TestReplaceInSlice(t *testing.T) {
-	tests := []struct {
-		desc    string
-		is      []interface{}
-		old     interface{}
-		new     interface{}
-		wantErr bool
-	}{
-		{
-			desc:    "empty slice",
-			is:      emptySlice,
-			old:     nil,
-			new:     "kitty",
-			wantErr: true,
-		},
-		{
-			desc:    "slice of strings",
-			is:      stringSliceNoDups,
-			old:     "bat",
-			new:     "cat",
-			wantErr: false,
-		},
-		{
-			desc:    "slice of things",
-			is:      mixedSlice,
-			old:     1,
-			new:     "cat",
-			wantErr: false,
-		},
-	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			newArr, err := ReplaceInSlice(test.is, test.old, test.new)
-			if err != nil && !test.wantErr {
-				t.Errorf("unexpected test failure: %v", err)
-			}
-			if InSlice(newArr, test.old) && test.old != nil {
-				t.Errorf("failed to replace values in slice")
-			}
-			if !InSlice(newArr, test.new) && test.old != nil {
-				t.Errorf("failed to remove old value value: %v", test.old)
-			}
-			if len(test.is) != len(newArr) {
-				t.Errorf("something wrong with array length")
-			}
-
-		})
-
-	}
-}
-
-func TestCountInSlice(t *testing.T) {
-	tests := []struct {
-		desc  string
-		is    []interface{}
-		i     interface{}
-		count int
-	}{
-		{
-			desc:  "test with empty slice",
-			is:    emptySlice,
-			i:     "kitten",
-			count: 0,
-		},
-		{
-			desc:  "test with irregular slice",
-			is:    mixedSlice,
-			i:     "kitty",
-			count: 1,
-		},
-		{
-			desc:  "test with different cat",
-			is:    mixedSlice,
-			i:     kitty{"fish", "marmalade"},
-			count: 0,
-		},
-	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			c := CountInSlice(test.is, test.i)
-			if c != test.count {
-				t.Errorf("wrong count: want: %v, got: %v", test.count, c)
-			}
-		})
-	}
-}
-
-func TestRemoveFromSlice(t *testing.T) {
-	tests := []struct {
-		desc string
-		is   []interface{}
-		i    interface{}
-	}{
-		{
-			desc: "empty slice",
-			is:   emptySlice,
-			i:    kitty{"shirls", "spotted"},
-		},
-		{
-			desc: "weird slice",
-			is:   mixedSlice,
-			i:    kitty{"shirls", "spotted"},
-		},
-		{
-			desc: "remove dupes",
-			is:   stringSliceWithDups,
-			i:    "kitty",
-		},
-	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			removed := RemoveFromSlice(test.is, test.i)
-			if InSlice(removed, test.i) {
-				t.Errorf("failed to remove %v from slice", test.i)
-			}
-		})
-	}
-}
-
-func TestPopSlice(t *testing.T) {
-	tests := []struct {
-		desc        string
-		is          []interface{}
-		expectedLen int
-	}{
-		{
-			desc:        "empty slice",
-			is:          emptySlice,
-			expectedLen: 0,
-		},
-	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			_, tail := PopSlice(test.is)
-			if len(tail) != test.expectedLen {
-				t.Errorf("failed to pop slice: got len: %v, want: %v", len(tail), test.expectedLen)
-			}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, CountDupsInSlice(tt.args.is))
 		})
 	}
 }
 
 func TestReverseSlice(t *testing.T) {
+	type args struct {
+		is []interface{}
+	}
 	tests := []struct {
-		desc string
-		is   []interface{}
+		name string
+		args args
 		want []interface{}
 	}{
-		{
-			desc: "empty slice",
-			is:   emptySlice,
-			want: emptySlice,
-		},
-		{
-			desc: "string slice",
-			is:   stringSliceNoDups,
-			want: []interface{}{"sate", "bat", "cat", "kitty"},
-		},
-		{
-			desc: "rune slice",
-			is:   testWithRunes("abcde"),
-			want: testWithRunes("edcba"),
-		},
+		// TODO: Add test cases.
 	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			reversed := ReverseSlice(test.is)
-			isEqual := reflect.DeepEqual(reversed, test.want)
-			if !isEqual {
-				t.Errorf("array not reversed: want: %v, got: %v", test.want, reversed)
-			}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, ReverseSlice(tt.args.is))
 		})
 	}
 }
 
 func TestFilterSliceByCondition(t *testing.T) {
+	type args struct {
+		is []interface{}
+		f  func(i interface{}) bool
+	}
 	tests := []struct {
-		desc     string
-		is       []interface{}
-		f        func(interface{}) bool
-		filtered []interface{}
-		targets  []interface{}
+		name         string
+		args         args
+		wantTargets  []interface{}
+		wantFiltered []interface{}
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotTargets, gotFiltered := FilterSliceByCondition(tt.args.is, tt.args.f)
+			assert.Equal(t, tt.wantTargets, gotTargets)
+			assert.Equal(t, tt.wantFiltered, gotFiltered)
+		})
+	}
+}
+
+func TestPopSlice(t *testing.T) {
+	type args struct {
+		is []interface{}
+	}
+	tests := []struct {
+		name  string
+		args  args
+		want  interface{}
+		want1 []interface{}
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, got1 := PopSlice(tt.args.is)
+			assert.Equal(t, tt.want, got)
+			assert.Equal(t, tt.want1, got1)
+		})
+	}
+}
+
+func TestReplaceInSlice(t *testing.T) {
+	type args struct {
+		is  []interface{}
+		old interface{}
+		new interface{}
+	}
+	tests := []struct {
+		name      string
+		args      args
+		want      []interface{}
+		assertion assert.ErrorAssertionFunc
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ReplaceInSlice(tt.args.is, tt.args.old, tt.args.new)
+			tt.assertion(t, err)
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestCountInSlice(t *testing.T) {
+	type args struct {
+		is []interface{}
+		i  interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
 	}{
 		{
-			desc: "empty slice",
-			f: func(i interface{}) bool {
-				if i == "cat" {
-					return true
-				}
-				return false
+			name: "test with empty slice",
+			args: args{
+				is: emptySlice,
+				i:  "kitten",
 			},
-			is:       emptySlice,
-			filtered: emptySlice,
-			targets:  emptySlice,
+			want: 0,
+		},
+		{
+			name: "test with irregular slice",
+			args: args{
+				is: mixedSlice,
+				i:  "kitty",
+			},
+			want: 1,
+		},
+		{
+			name: "test with different cat",
+			args: args{
+				is: mixedSlice,
+				i:  kitty{"fish", "marmalade"},
+			},
+			want: 0,
 		},
 	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			targets, filtered := FilterSliceByCondition(test.is, test.f)
-			// Check the empty slice is working as expected
-			if len(test.is) == 0 {
-				if len(targets) != 0 && len(filtered) != 0 {
-					t.Errorf("failed on empty slice")
-				}
-			} else {
-				okTargets := reflect.DeepEqual(test.targets, targets)
-				if !okTargets {
-					t.Errorf("failed to filter targets: results: %v", targets)
-				}
-				okFiltered := reflect.DeepEqual(test.filtered, filtered)
-				if !okFiltered {
-					t.Errorf("failed to filter interfaces out: results: %v", filtered)
-				}
-			}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, CountInSlice(tt.args.is, tt.args.i))
 		})
 	}
 }

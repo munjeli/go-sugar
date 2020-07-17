@@ -1,33 +1,26 @@
 package gosugar
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/magiconair/properties/assert"
+)
 
 func TestIsPermutation(t *testing.T) {
-	tests := []struct {
-		desc string
+	type args struct {
 		str1 string
 		str2 string
+	}
+	tests := []struct {
+		name string
+		args args
 		want bool
 	}{
-		{
-			desc: "empty strings",
-			str1: "",
-			str2: "",
-			want: true,
-		},
-		{
-			desc: "same string",
-			str1: "shuffle",
-			str2: "shuffle",
-			want: true,
-		},
+		// TODO: Add test cases.
 	}
-	for _, test := range tests {
-		t.Run(test.desc, func(t *testing.T) {
-			b := IsPermutation(test.str1, test.str2)
-			if b != test.want {
-				t.Errorf("want: %v, got: %v", test.want, b)
-			}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, IsPermutation(tt.args.str1, tt.args.str2))
 		})
 	}
 }
