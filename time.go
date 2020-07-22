@@ -27,9 +27,9 @@ func (d DateDuration) ToString() string {
 	return str
 }
 
-// DateDurationParse returns a DateDuration type for a
+// ParseDateDuration returns a DateDuration type for a
 // properly formatted string.
-func DateDurationParse(s string) (d DateDuration) {
+func ParseDateDuration(s string) (d DateDuration) {
 	// dels is the map of delimiters for parsing the duration string, note
 	// month has to be CAP'd!
 	dels := map[string]int{"y": 0, "M": 0, "d": 0, "h": 0, "m": 0, "s": 0}
@@ -57,6 +57,17 @@ func DateDurationParse(s string) (d DateDuration) {
 
 // TimeSubDuration Go core has time.Add(Duration), time.Sub(time.Time),
 //but no time.Sub(Duration)
-func TimeSubDuration(t time.Duration) time.Time {
- return time.Time{}
+func TimeSubDuration(t time.Time, d time.Duration) time.Time {
+	return t.Add(-d)
+}
+
+// TimeAddDateDuration adds DateDuration to a time.Time.
+func TimeAddDateDuration(t time.Time, d DateDuration) time.Time {
+	return time.Time{}
+}
+
+// TimeSubDateDuration subtracts a DateDuration from a time and
+// returns a time.
+func TimeSubDateDuration(t time.Time, d DateDuration) time.Time {
+	return time.Time{}
 }
