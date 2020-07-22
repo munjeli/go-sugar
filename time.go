@@ -30,7 +30,7 @@ func (d DateDuration) String() string {
 // Truncate add the char for the field you want to round;
 // All fields on the right will be set to zero.
 // Valid characters are `yMdhms`.
-func (d DateDuration) Truncate (s string) DateDuration {
+func (d DateDuration) Truncate(s string) DateDuration {
 	return DateDuration{}
 }
 
@@ -38,7 +38,7 @@ func (d DateDuration) Truncate (s string) DateDuration {
 // But it's still sometimes useful you know. The math
 // as expected is also an issue with the Go time lib in
 // places, it's almost like time is relative!
-func (d DateDuration) ToTime () time.Time {
+func (d DateDuration) ToTime() time.Time {
 	return time.Time{}
 }
 
