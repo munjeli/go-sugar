@@ -22,9 +22,24 @@ type DateDuration struct {
 }
 
 // ToString converts a DateDuration to the canonical query format.
-func (d DateDuration) ToString() string {
+func (d DateDuration) String() string {
 	str := fmt.Sprintf("%dy%dM%dd%dh%dm%ds", d.Years, d.Months, d.Days, d.Hours, d.Minutes, d.Seconds)
 	return str
+}
+
+// Truncate add the char for the field you want to round;
+// All fields on the right will be set to zero.
+// Valid characters are `yMdhms`.
+func (d DateDuration) Truncate (s string) DateDuration {
+	return DateDuration{}
+}
+
+// ToTime Danger Danger! This might not math as expected.
+// But it's still sometimes useful you know. The math
+// as expected is also an issue with the Go time lib in
+// places, it's almost like time is relative!
+func (d DateDuration) ToTime () time.Time {
+	return time.Time{}
 }
 
 // ParseDateDuration returns a DateDuration type for a
@@ -70,4 +85,15 @@ func TimeAddDateDuration(t time.Time, d DateDuration) time.Time {
 // returns a time.
 func TimeSubDateDuration(t time.Time, d DateDuration) time.Time {
 	return time.Time{}
+}
+
+// SumDurations takes a slice of durations, adds them to zero time,
+// then subtracts the resulting time from zero time.
+func SumDurations(ds []time.Duration) time.Duration {
+	startTime := time.Time{}
+	for _, d := range ds {
+		startTime = startTime.Add(d)
+	}
+	zeroTime := time.Time{}
+	return startTime.Sub(zeroTime)
 }
