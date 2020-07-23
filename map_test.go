@@ -6,6 +6,24 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var (
+	mapWithStringKeys = map[interface{}]interface{}{
+		"kitty": "Shirley",
+		"puppy": "Neptune",
+		"rat":   "Squeaky",
+	}
+	mapWithIntKeys = map[interface{}]interface{}{
+		1: "Shirley",
+		2: "Neptune",
+		3: "Squeaky",
+	}
+	mapWithIntVals = map[interface{}]interface{}{
+		"Shirley": 1,
+		"Neptune": 2,
+		"Squeaky": 3,
+	}
+)
+
 func TestRemoveFromMapByKey(t *testing.T) {
 	type args struct {
 		m   map[interface{}]interface{}
@@ -16,7 +34,36 @@ func TestRemoveFromMapByKey(t *testing.T) {
 		args args
 		want map[interface{}]interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty map",
+			args: args{
+				m:   map[interface{}]interface{}{},
+				key: "kitty",
+			},
+			want: map[interface{}]interface{}{},
+		},
+		{
+			name: "map with string keys as interfaces",
+			args: args{
+				m:   mapWithStringKeys,
+				key: "kitty",
+			},
+			want: map[interface{}]interface{}{
+				"puppy": "Neptune",
+				"rat":   "Squeaky",
+			},
+		},
+		{
+			name: "map with int keys as interfaces",
+			args: args{
+				m:   mapWithIntKeys,
+				key: 1,
+			},
+			want: map[interface{}]interface{}{
+				2: "Neptune",
+				3: "Squeaky",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -35,7 +82,36 @@ func TestRemoveFromMapByValue(t *testing.T) {
 		args args
 		want map[interface{}]interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty map",
+			args: args{
+				m:   map[interface{}]interface{}{},
+				val: 1,
+			},
+			want: map[interface{}]interface{}{},
+		},
+		{
+			name: "map with string vals as interfaces",
+			args: args{
+				m:   mapWithStringKeys,
+				val: "Shirley",
+			},
+			want: map[interface{}]interface{}{
+				"puppy": "Neptune",
+				"rat":   "Squeaky",
+			},
+		},
+		{
+			name: "map with int vals as interfaces",
+			args: args{
+				m:   mapWithIntVals,
+				val: 1,
+			},
+			want: map[interface{}]interface{}{
+				"Neptune": 2,
+				"Squeaky": 3,
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
