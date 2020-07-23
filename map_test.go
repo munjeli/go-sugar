@@ -174,7 +174,38 @@ func TestSameMap(t *testing.T) {
 		args args
 		want bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty map",
+			args: args{
+				m1: map[interface{}]interface{}{},
+				m2: map[interface{}]interface{}{},
+			},
+			want: true,
+		},
+		{
+			name: "same map",
+			args: args{
+				m1: mapWithStringKeys,
+				m2: mapWithStringKeys,
+			},
+			want: true,
+		},
+		{
+			name: "different map",
+			args: args{
+				m1: mapWithStringKeys,
+				m2: mapWithIntVals,
+			},
+			want: false,
+		},
+		{
+			name: "first map empty",
+			args: args{
+				m1: map[interface{}]interface{}{},
+				m2: mapWithIntVals,
+			},
+			want: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
