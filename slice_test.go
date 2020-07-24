@@ -187,11 +187,25 @@ func TestReverseSlice(t *testing.T) {
 		args args
 		want []interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty slice",
+			args: args{
+				is: emptySlice,
+			},
+			want: emptySlice,
+		},
+		{
+			name: "string slice",
+			args: args{
+				is: stringSliceNoDups,
+			},
+			want: []interface{}{"sate", "bat", "cat", "kitty"},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, ReverseSlice(tt.args.is))
+			rvd := ReverseSlice(tt.args.is)
+			assert.Equal(t, tt.want, rvd)
 		})
 	}
 }
@@ -207,7 +221,7 @@ func TestFilterSliceByCondition(t *testing.T) {
 		wantTargets  []interface{}
 		wantFiltered []interface{}
 	}{
-		// TODO: Add test cases.
+
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -228,13 +242,32 @@ func TestPopSlice(t *testing.T) {
 		want  interface{}
 		want1 []interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "string slice",
+			args: args{
+				is: stringSliceNoDups,
+			},
+			want: "sate",
+			want1: []interface{}{
+				"bat",
+				"cat",
+				"kitty",
+			},
+		},
+		{
+			name: "empty slice",
+			args: args{
+				is: emptySlice,
+			},
+			want: nil,
+			want1: emptySlice,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, got1 := PopSlice(tt.args.is)
 			assert.Equal(t, tt.want, got)
-			assert.Equal(t, tt.want1, got1)
+			assert.ElementsMatch(t, tt.want1, got1)
 		})
 	}
 }
@@ -246,18 +279,36 @@ func TestReplaceInSlice(t *testing.T) {
 		new interface{}
 	}
 	tests := []struct {
-		name      string
-		args      args
-		want      []interface{}
-		assertion assert.ErrorAssertionFunc
+		name    string
+		args    args
+		want    []interface{}
+		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty slice",
+			args: args{
+				is:  []interface{}{},
+				old: "kitty",
+				new: "puppy",
+			},
+			want:    []interface{}{},
+			wantErr: false,
+		},
+		{
+			name: "string slice",
+			args: args{
+				is:  stringSliceNoDups,
+				old: "kitty",
+				new: "puppy",
+			},
+			want:    []interface{}{"puppy","bat","cat","sate"},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := ReplaceInSlice(tt.args.is, tt.args.old, tt.args.new)
-			tt.assertion(t, err)
-			assert.Equal(t, tt.want, got)
+			got := ReplaceInSlice(tt.args.is, tt.args.old, tt.args.new)
+			assert.ElementsMatch(t, tt.want, got)
 		})
 	}
 }

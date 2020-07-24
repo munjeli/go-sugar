@@ -1,7 +1,5 @@
 package gosugar
 
-import "fmt"
-
 // SliceHasDupes returns a bool if a slice has duplicate interfaces.
 func SliceHasDupes(is []interface{}) bool {
 	m := UniqSlice(is)
@@ -90,11 +88,8 @@ func PopSlice(is []interface{}) (interface{}, []interface{}) {
 }
 
 // ReplaceInSlice replaces the old value in the array with the new one.
-func ReplaceInSlice(is []interface{}, old, new interface{}) ([]interface{}, error) {
+func ReplaceInSlice(is []interface{}, old, new interface{}) []interface{} {
 	replaced := []interface{}{}
-	if old == nil {
-		return replaced, fmt.Errorf("old value cannot be nil")
-	}
 	for _, i := range is {
 		if i == old {
 			replaced = append(replaced, new)
@@ -102,7 +97,7 @@ func ReplaceInSlice(is []interface{}, old, new interface{}) ([]interface{}, erro
 			replaced = append(replaced, i)
 		}
 	}
-	return replaced, nil
+	return replaced
 }
 
 // CountInSlice returns the number of times an interface is in the slice.
