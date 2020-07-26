@@ -47,8 +47,7 @@ func ParseDateDuration(s string) (d DateDuration) {
 	// dels is the map of delimiters for parsing the duration string, note
 	// month has to be CAP'd!
 	dels := map[string]int{"y": 0, "M": 0, "d": 0, "h": 0, "m": 0, "s": 0}
-	splits := []string{`y`, `M`, `d`, `h`, `m`, `s`}
-	for _, letter := range splits {
+	for letter := range dels {
 		pat := `\d+` + letter
 		var re = regexp.MustCompile(pat)
 		cycle := re.FindAllString(s, 1)
@@ -56,7 +55,7 @@ func ParseDateDuration(s string) (d DateDuration) {
 			num := regexp.MustCompile(`\d+`).FindAllString(cycle[0], 1)
 			if len(num) != 0 {
 				n, _ := strconv.Atoi(num[0])
-				dels[s] = n
+				dels[letter] = n
 			}
 		}
 
