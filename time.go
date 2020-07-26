@@ -30,15 +30,46 @@ func (d DateDuration) String() string {
 // All fields on the right will be set to zero.
 // Valid characters are `yMdhms`.
 func (d DateDuration) Truncate(s string) DateDuration {
-	return DateDuration{}
+	precedenceMap := map[string]int{
+		"y": 5,
+		"M": 4,
+		"d": 3,
+		"h": 2,
+		"m": 1,
+		"s": 0,
+	}
+	precedence, found := precedenceMap[s]
+	if !found {
+		return d
+	}
+	// This is absurdly redundant, but I'm still thinking about the data structure
+	// of a DateDuration, and how to map the string values for the query vs. the
+	// properties of the type.
+	dd := DateDuration{
+		Years:   setDurationPropByPrecedence(d.Years, 5, precedence),
+		Months:  setDurationPropByPrecedence(d.Months, 4, precedence),
+		Days:    setDurationPropByPrecedence(d.Days, 3, precedence),
+		Hours:   setDurationPropByPrecedence(d.Hours, 2, precedence),
+		Minutes: setDurationPropByPrecedence(d.Minutes, 1, precedence),
+		Seconds: setDurationPropByPrecedence(d.Seconds, 0, precedence),
+	}
+	return dd
+}
+
+func setDurationPropByPrecedence(d int, stringForProp, precedence int) int {
+	if stringForProp > precedence {
+		return d
+	}
+	return 0
 }
 
 // ToTime Danger Danger! This might not math as expected.
-// But it's still sometimes useful you know. The math
-// as expected is also an issue with the Go time lib in
-// places, it's almost like time is relative!
+// But it's still sometimes useful you know. Skip the
+// months for accuracy, and use days instead.
 func (d DateDuration) ToTime() time.Time {
-	return time.Time{}
+	month := time.Month(d.Months)
+	date := time.Date(d.Years, month, d.Days, d.Hours, d.Minutes, d.Seconds, 0, time.UTC)
+	return date
 }
 
 // ParseDateDuration returns a DateDuration type for a
