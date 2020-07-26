@@ -68,6 +68,18 @@ func TestDateDuration_ToTime(t *testing.T) {
 			},
 			want: time.Time{},
 		},
+		{
+			name: "set date by ints, still begin time",
+			dd: DateDuration{
+				Years:   1,
+				Months:  1,
+				Days:    1,
+				Hours:   0,
+				Minutes: 0,
+				Seconds: 0,
+			},
+			want: time.Time{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -106,6 +118,7 @@ func TestDateDuration_Truncate(t *testing.T) {
 				Minutes: 3,
 				Seconds: 1,
 			},
+			args: args{s:"d"},
 			want: DateDuration{
 				Years:   4,
 				Months:  0,
@@ -113,6 +126,26 @@ func TestDateDuration_Truncate(t *testing.T) {
 				Hours:   0,
 				Minutes: 0,
 				Seconds: 0,
+			},
+		},
+		{
+			name: "bad key for split, returns og object",
+			fields: fields{
+				Years:   4,
+				Months:  0,
+				Days:    1,
+				Hours:   9,
+				Minutes: 3,
+				Seconds: 1,
+			},
+			args: args{s:"k"},
+			want: DateDuration{
+				Years:   4,
+				Months:  0,
+				Days:    1,
+				Hours:   9,
+				Minutes: 3,
+				Seconds: 1,
 			},
 		},
 	}

@@ -57,7 +57,8 @@ func (d DateDuration) Truncate(s string) DateDuration {
 }
 
 func setDurationPropByPrecedence(d int, stringForProp, precedence int) int {
-	if stringForProp > precedence {
+	if stringForProp >= precedence {
+		fmt.Println(d)
 		return d
 	}
 	return 0
@@ -65,11 +66,30 @@ func setDurationPropByPrecedence(d int, stringForProp, precedence int) int {
 
 // ToTime Danger Danger! This might not math as expected.
 // But it's still sometimes useful you know. Skip the
-// months for accuracy, and use days instead.
+// months for accuracy, and use days instead. Also
+// empty Time is the first day of time, not all 0s.
 func (d DateDuration) ToTime() time.Time {
-	month := time.Month(d.Months)
-	date := time.Date(d.Years, month, d.Days, d.Hours, d.Minutes, d.Seconds, 0, time.UTC)
+	var month time.Month
+	// taking care of the empty string, there's no
+	// 0 year, month, or day.
+	if d.Months == 0 {
+		month = time.Month(1)
+	} else {
+		month = time.Month(d.Months)
+	}
+	years := handleZero(d.Years)
+	days := handleZero(d.Days)
+	date := time.Date(years, month, days, d.Hours, d.Minutes, d.Seconds, 0, time.UTC)
 	return date
+}
+
+// handleZero returns one for a zero to fix date instantiation on zero days.
+func handleZero(in int) int {
+	if in == 0 {
+		return 1
+	} else {
+		return in
+	}
 }
 
 // ParseDateDuration returns a DateDuration type for a
