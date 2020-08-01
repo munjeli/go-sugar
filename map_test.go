@@ -223,7 +223,13 @@ func TestSortMapByStringKey(t *testing.T) {
 		args args
 		want map[string]interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty map",
+			args: args{
+				m: map[string]interface{}{},
+			},
+			want: map[string]interface{}{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -241,7 +247,13 @@ func TestSortMapByIntKey(t *testing.T) {
 		args args
 		want map[int]interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty map",
+			args: args{
+				m: map[int]interface{}{},
+			},
+			want: map[int]interface{}{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -259,7 +271,13 @@ func TestSortMapByStringValue(t *testing.T) {
 		args args
 		want map[interface{}]string
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty map",
+			args: args{
+				m: map[interface{}]string{},
+			},
+			want: map[interface{}]string{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

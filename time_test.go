@@ -52,9 +52,9 @@ func TestDateDuration_String(t *testing.T) {
 
 func TestDateDuration_ToTime(t *testing.T) {
 	tests := []struct {
-		name   string
-		dd DateDuration
-		want   time.Time
+		name string
+		dd   DateDuration
+		want time.Time
 	}{
 		{
 			name: "empty dd",
@@ -118,7 +118,7 @@ func TestDateDuration_Truncate(t *testing.T) {
 				Minutes: 3,
 				Seconds: 1,
 			},
-			args: args{s:"d"},
+			args: args{s: "d"},
 			want: DateDuration{
 				Years:   4,
 				Months:  0,
@@ -138,7 +138,7 @@ func TestDateDuration_Truncate(t *testing.T) {
 				Minutes: 3,
 				Seconds: 1,
 			},
-			args: args{s:"k"},
+			args: args{s: "k"},
 			want: DateDuration{
 				Years:   4,
 				Months:  0,

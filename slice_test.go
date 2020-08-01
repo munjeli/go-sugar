@@ -220,9 +220,7 @@ func TestFilterSliceByCondition(t *testing.T) {
 		args         args
 		wantTargets  []interface{}
 		wantFiltered []interface{}
-	}{
-
-	}
+	}{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotTargets, gotFiltered := FilterSliceByCondition(tt.args.is, tt.args.f)
@@ -259,7 +257,7 @@ func TestPopSlice(t *testing.T) {
 			args: args{
 				is: emptySlice,
 			},
-			want: nil,
+			want:  nil,
 			want1: emptySlice,
 		},
 	}
@@ -301,7 +299,7 @@ func TestReplaceInSlice(t *testing.T) {
 				old: "kitty",
 				new: "puppy",
 			},
-			want:    []interface{}{"puppy","bat","cat","sate"},
+			want:    []interface{}{"puppy", "bat", "cat", "sate"},
 			wantErr: false,
 		},
 	}

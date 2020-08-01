@@ -4,7 +4,7 @@ vet:
 	go vet
 
 format:
-	find . -name '*.go' | xargs gofmt -s
+	find . -name '*.go' | xargs gofmt -s -w
 
 build:
 	go build
