@@ -138,7 +138,15 @@ func TestFilterMapByKeyCondition(t *testing.T) {
 		want  map[interface{}]interface{}
 		want1 map[interface{}]interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty map",
+			args: args{
+				m: emptyMap,
+				f: isHello,
+			},
+			want:  emptyMap,
+			want1: emptyMap,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
