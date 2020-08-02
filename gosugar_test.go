@@ -38,7 +38,20 @@ func TestRunesToInterfaces(t *testing.T) {
 		args args
 		want []interface{}
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty array",
+			args: args{
+				rs: []rune{},
+			},
+			want: []interface{}{},
+		},
+		{
+			name: "runes",
+			args: args{
+				rs: []rune("abcde"),
+			},
+			want: []interface{}{int32(97), int32(98), int32(99), int32(100), int32(101)},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
