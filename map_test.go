@@ -32,6 +32,13 @@ func isHello(i interface{}) bool {
 	return false
 }
 
+func isFour(i interface{}) bool {
+	if i == 4 {
+		return true
+	}
+	return false
+}
+
 func TestRemoveFromMapByKey(t *testing.T) {
 	type args struct {
 		m   map[interface{}]interface{}
@@ -156,6 +163,15 @@ func TestFilterMapByKeyCondition(t *testing.T) {
 			},
 			want:  mapHello,
 			want1: emptyMap,
+		},
+		{
+			name: "condition untrue",
+			args: args{
+				m: mapWithIntKeys,
+				f: isFour,
+			},
+			want:  emptyMap,
+			want1: mapWithIntKeys,
 		},
 	}
 	for _, tt := range tests {
