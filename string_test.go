@@ -16,7 +16,30 @@ func TestIsPermutation(t *testing.T) {
 		args args
 		want bool
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty strings",
+			args: args{
+				str1: "",
+				str2: "",
+			},
+			want: true,
+		},
+		{
+			name: "is permutation",
+			args: args{
+				str1: "caats",
+				str2: "tasac",
+			},
+			want: true,
+		},
+		{
+			name: "not permutation",
+			args: args{
+				str1: "puppies",
+				str2: "kitties",
+			},
+			want: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
