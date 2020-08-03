@@ -22,6 +22,7 @@ var (
 		"Neptune": 2,
 		"Squeaky": 3,
 	}
+	mapHello = map[interface{}]interface{}{"Hello": "Kitty"}
 )
 
 func isHello(i interface{}) bool {
@@ -145,6 +146,15 @@ func TestFilterMapByKeyCondition(t *testing.T) {
 				f: isHello,
 			},
 			want:  emptyMap,
+			want1: emptyMap,
+		},
+		{
+			name: "map with only one key",
+			args: args{
+				m: mapHello,
+				f: isHello,
+			},
+			want:  mapHello,
 			want1: emptyMap,
 		},
 	}
