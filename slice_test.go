@@ -220,7 +220,26 @@ func TestFilterSliceByCondition(t *testing.T) {
 		args         args
 		wantTargets  []interface{}
 		wantFiltered []interface{}
-	}{}
+	}{
+		{
+			name: "empty interface",
+			args: args{
+				is: []interface{}{},
+				f:  isHello,
+			},
+			wantTargets:  emptySlice,
+			wantFiltered: emptySlice,
+		},
+		{
+			name: "with Hello",
+			args: args{
+				is: stringSliceHello,
+				f:  isHello,
+			},
+			wantTargets:  []interface{}{"Hello"},
+			wantFiltered: []interface{}{"kitten", "here kitty kitty"},
+		},
+	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotTargets, gotFiltered := FilterSliceByCondition(tt.args.is, tt.args.f)

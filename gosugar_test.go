@@ -13,10 +13,11 @@ type kitty struct {
 }
 
 var (
-	emptySlice          = []interface{}{}
+	emptySlice          = []interface{}{nil}
 	mixedSlice          = []interface{}{"kitty", 1, kitty{"shirls", "spotted"}}
 	stringSliceNoDups   = []interface{}{"kitty", "cat", "bat", "sate"}
 	stringSliceWithDups = []interface{}{"kitten", "dog", "kitten"}
+	stringSliceHello    = []interface{}{"kitten", "Hello", "here kitty kitty"}
 	emptyMap            = map[interface{}]interface{}{}
 )
 
