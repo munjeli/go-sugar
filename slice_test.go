@@ -169,7 +169,11 @@ func TestCountDupsInSlice(t *testing.T) {
 		args args
 		want map[interface{}]int
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty slice",
+			args: args{is: emptySlice},
+			want: map[interface{}]int{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
