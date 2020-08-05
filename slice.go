@@ -24,7 +24,7 @@ func UniqSlice(is []interface{}) []interface{} {
 
 // RemoveFromSlice will remove a given item from a slice.
 func RemoveFromSlice(is []interface{}, i interface{}) []interface{} {
-	removed := []interface{}{}
+	var removed []interface{}
 	for _, intfc := range is {
 		if intfc == i {
 			continue

@@ -58,7 +58,6 @@ func (d DateDuration) Truncate(s string) DateDuration {
 
 func setDurationPropByPrecedence(d int, stringForProp, precedence int) int {
 	if stringForProp >= precedence {
-		fmt.Println(d)
 		return d
 	}
 	return 0

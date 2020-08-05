@@ -13,7 +13,7 @@ type kitty struct {
 }
 
 var (
-	emptySlice          = []interface{}{nil}
+	emptySlice          = []interface{}{}
 	mixedSlice          = []interface{}{"kitty", 1, kitty{"shirls", "spotted"}}
 	stringSliceNoDups   = []interface{}{"kitty", "cat", "bat", "sate"}
 	stringSliceWithDups = []interface{}{"kitten", "dog", "kitten"}

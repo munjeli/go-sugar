@@ -228,7 +228,7 @@ func TestFilterSliceByCondition(t *testing.T) {
 		{
 			name: "empty interface",
 			args: args{
-				is: []interface{}{},
+				is: emptySlice,
 				f:  isHello,
 			},
 			wantTargets:  emptySlice,
@@ -247,8 +247,8 @@ func TestFilterSliceByCondition(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotTargets, gotFiltered := FilterSliceByCondition(tt.args.is, tt.args.f)
-			assert.Equal(t, tt.wantTargets, gotTargets)
-			assert.Equal(t, tt.wantFiltered, gotFiltered)
+			assert.ElementsMatch(t, tt.wantTargets, gotTargets)
+			assert.ElementsMatch(t, tt.wantFiltered, gotFiltered)
 		})
 	}
 }
