@@ -222,7 +222,11 @@ func TestSumDurations(t *testing.T) {
 		args args
 		want time.Duration
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty args",
+			args: args{ds: []time.Duration{}},
+			want: time.Duration(0),
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -243,7 +247,14 @@ func TestTimeAddDateDuration(t *testing.T) {
 		args args
 		want time.Time
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty duration",
+			args: args{
+				t: time.Time{},
+				d: DateDuration{},
+			},
+			want: time.Time{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -264,7 +275,14 @@ func TestTimeSubDateDuration(t *testing.T) {
 		args args
 		want time.Time
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty duration",
+			args: args{
+				t: time.Time{},
+				d: DateDuration{},
+			},
+			want: time.Time{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -285,7 +303,14 @@ func TestTimeSubDuration(t *testing.T) {
 		args args
 		want time.Time
 	}{
-		// TODO: Add test cases.
+		{
+			name: "empty duration",
+			args: args{
+				t: time.Time{},
+				d: time.Duration(0),
+			},
+			want: time.Time{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -22,7 +22,7 @@ var (
 		"Neptune": 2,
 		"Squeaky": 3,
 	}
-	mapHello = map[interface{}]interface{}{"Hello": "Kitty"}
+	mapHello = map[interface{}]interface{}{"Hello": "Hello"}
 )
 
 func isHello(i interface{}) bool {
@@ -201,6 +201,24 @@ func TestFilterMapByValueCondition(t *testing.T) {
 				f: isHello,
 			},
 			want:  emptyMap,
+			want1: emptyMap,
+		},
+		{
+			name: "no value fits",
+			args: args{
+				m: mapWithIntVals,
+				f: isFour,
+			},
+			want:  emptyMap,
+			want1: mapWithIntVals,
+		},
+		{
+			name: "return one value",
+			args: args{
+				m: mapHello,
+				f: isHello,
+			},
+			want:  mapHello,
 			want1: emptyMap,
 		},
 	}
